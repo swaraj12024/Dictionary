@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+   android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:paddingTop="10dp"
+    android:background="#c8f2ef"
+    android:paddingBottom="10dp">
+
+    <ProgressBar
+        android:id="@+id/progress"
+        style="@android:style/Widget.Holo.Light.ProgressBar.Small.Title"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="150dp"
+        android:layout_marginTop="200dp" />
+
+    <android.support.v7.widget.SearchView
+        android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+        android:background="#fff"
+        android:queryHint="Search"
+        android:id="@+id/searchView"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/my_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/searchView"
+        android:layout_marginTop="20dp"
+        android:descendantFocusability="blocksDescendants"
+        android:background="#fff"
+        android:scrollbars="vertical"/>
+
+
+</RelativeLayout>
