@@ -1,15 +1,12 @@
 package com.example.swaraj.Dictionary;
 
-import android.app.NotificationManager;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.net.Uri;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.app.NotificationCompat;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -17,9 +14,9 @@ import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -33,12 +30,10 @@ public class DictionaryMainActivity extends AppCompatActivity {
     public static ArrayList<DictObjectModel> data;
     DatabaseHelper db ;
 
-    ArrayList<String> wordcombimelist;
+   public static ArrayList<String> wordcombimelist;
     ArrayList<String> meancombimelist;
     LinkedHashMap<String,String> namelist;
     SearchView searchView;
-    NotificationCompat.Builder notification;
-    public static final int uniqueid=848;
 
 
     @Override
@@ -48,7 +43,16 @@ public class DictionaryMainActivity extends AppCompatActivity {
         recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
         recyclerView.setHasFixedSize(true);
         db= new DatabaseHelper(this);
+        AlarmManager alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
 
+        PendingIntent pendingIntent = PendingIntent.getService(this, 0,new Intent(this,MyService.class)  , 0);
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, 8);
+        calendar.set(Calendar.MINUTE, 00);
+        calendar.set(Calendar.SECOND, 00);
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY ,pendingIntent);
+
+        startService(new Intent(this,MyService.class));
         searchView = (SearchView) findViewById(R.id.searchView);
         searchView.setQueryHint("Search Here");
         searchView.setQueryRefinementEnabled(true);
@@ -58,27 +62,7 @@ public class DictionaryMainActivity extends AppCompatActivity {
         data = new ArrayList<DictObjectModel>();
         fetchData();
 
-        notification= new NotificationCompat.Builder(this);
-        notification.setAutoCancel(true);
-        notification.setColor(000);
-        notification.setSmallIcon(R.drawable.a);
-       SharedPreferences prf= PreferenceManager.getDefaultSharedPreferences(this);
-        Toast.makeText(this, prf.getString("example_list",""), Toast.LENGTH_SHORT).show();
-        notification.setSound(Uri.parse(prf.getString("notifications_new_message_ringtone","xxx")));
-        int i=33242;
-        StringBuffer buffer=new StringBuffer();
-        for(int j=1; j<= Integer.parseInt(prf.getString("example_list", ""));j++)
-        {
 
-            buffer.append(wordcombimelist.get(i)+"   ");
-            i+=535;
-
-        }
-        notification.setContentText(buffer);
-        notification.setContentTitle("Dictionary");
-
-        NotificationManager nm=(NotificationManager)getSystemService(NOTIFICATION_SERVICE);
-        nm.notify(uniqueid,notification.build());
 
 
 
@@ -122,7 +106,18 @@ public class DictionaryMainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        startActivity(new Intent(this,SettingsActivity.class));
+
+        switch (item.getItemId())
+        {
+            case R.id.settings:
+                startActivity(new Intent(this,SettingsActivity.class));
+            case R.id.quiz:
+                startActivity(new Intent(this, QuizActivty.class));
+
+
+
+
+        }
         return super.onOptionsItemSelected(item);
     }
 
