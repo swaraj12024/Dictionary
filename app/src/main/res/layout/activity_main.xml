@@ -7,20 +7,20 @@
     android:background="#c8f2ef"
     android:paddingBottom="10dp">
 
-    <ProgressBar
-        android:id="@+id/progress"
-        style="@android:style/Widget.Holo.Light.ProgressBar.Small.Title"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginStart="150dp"
-        android:layout_marginTop="200dp" />
-
     <android.support.v7.widget.SearchView
         android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
         android:background="#fff"
         android:queryHint="Search"
         android:id="@+id/searchView"/>
+
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="150dp"
+        android:id="@+id/loader"
+
+        android:layout_marginTop="220dp"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/my_recycler_view"

@@ -46,12 +46,15 @@ public class MyService extends Service {
                 notification.setSound(Uri.parse(prf.getString("notifications_new_message_ringtone","xxx")));
 
                 StringBuffer buffer=new StringBuffer();
-                for(int j=1; j<= Integer.parseInt(prf.getString("example_list", ""));j++)
+                int k=2;
+                if(k>2)
+                {
+                    k=Integer.parseInt(prf.getString("example_list", ""));
+                }
+                for(int j=1; j<=k ;j++)
                 {
 
                     buffer.append(wordcombimelist.get(new Random().nextInt(wordcombimelist.size()))+"   ");
-
-
 
                 }
                 notification.setContentText(buffer);
